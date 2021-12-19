@@ -54,6 +54,8 @@ public class Cliente implements Serializable{
 	@Column(name = "telefone")
 	private String telefone;
 	
+	
+	
 	public Cliente() {
 		super();
 	}

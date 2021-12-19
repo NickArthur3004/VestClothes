@@ -1,17 +1,20 @@
 package br.com.vestclothes.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_Usuarios")
-public class Usuarios implements Serializable{
+public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -19,25 +22,38 @@ public class Usuarios implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(name = "email")
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	
-	@Column(name = "senha")
+	@Column(name = "senha", nullable = false)
 	private String senha;
 	
 	@Column(name = "ativo")
 	private boolean ativo;
 	
-	public Usuarios() {
+	@Column(name = "codigo_verificador", length = 6)
+	private String codigoVerificador;
+	
+	@ManyToMany
+	private List<Perfil> perfis;
+	
+	public Usuario() {
 		super();
 	}
 
-	public Usuarios(Long id, String email, String senha, boolean ativo) {
+	public Usuario(Long id, String email, String senha, boolean ativo) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.senha = senha;
 		this.ativo = ativo;
+	}
+	
+	public void addPerfil(PerfilTipo tipo) {
+		if (this.perfis == null) {
+			this.perfis = new ArrayList<>();
+		}
+		this.perfis.add(new Perfil(tipo.getId()));
 	}
 
 	public Long getId() {
@@ -72,6 +88,22 @@ public class Usuarios implements Serializable{
 		this.ativo = ativo;
 	}
 
+	public String getCodigoVerificador() {
+		return codigoVerificador;
+	}
+
+	public void setCodigoVerificador(String codigoVerificador) {
+		this.codigoVerificador = codigoVerificador;
+	}
+
+	public List<Perfil> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(List<Perfil> perfis) {
+		this.perfis = perfis;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -88,7 +120,7 @@ public class Usuarios implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuarios other = (Usuarios) obj;
+		Usuario other = (Usuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

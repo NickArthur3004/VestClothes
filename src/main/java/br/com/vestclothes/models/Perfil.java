@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_Perfis")
-public class Perfis {
+public class Perfil {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,15 +18,16 @@ public class Perfis {
 	@Column(name = "desc")
 	private String desc;
 	
-	public Perfis() {
+	public Perfil() {
 		super();
 	}
 
-	public Perfis(Long id, String desc) {
+	public Perfil(Long id) {
 		super();
 		this.id = id;
-		this.desc = desc;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -60,7 +61,7 @@ public class Perfis {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Perfis other = (Perfis) obj;
+		Perfil other = (Perfil) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
